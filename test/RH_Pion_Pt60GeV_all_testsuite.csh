@@ -11,6 +11,7 @@ eval `scramv1 ru -csh`
 setenv WORKDIR `pwd`
 
 setenv SWSOURCE $CMSSW_RELEASE_BASE
+#setenv SWSOURCE $CMSSW_BASE
 
 setenv ECALREFDIR  /afs/cern.ch/cms/data/CMSSW/Validation/EcalRecHits/data
 #setenv ECALREFDIR  `pwd`
@@ -19,7 +20,7 @@ echo "===================> Step1: executing ERHProducer (/RecoLocalCalo/EcalRecP
 
 /bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg >& /dev/null
 
-sed 's/reco-application-ecal-digitization.root/Pion_Pt60GeV_all_digis.root/' ${CMSSW_BASE}/src/Configuration/Applications/data/reco-application-ecal-localreco.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
+sed 's/reco-application-ecal-digitization.root/Pion_Pt60GeV_all_digis.root/' ${SWSOURCE}/src/Configuration/Applications/data/reco-application-ecal-localreco.cfg >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite1.cfg
 
 ln -sf ${ECALREFDIR}/Pion_Pt60GeV_all_digis.root ${WORKDIR}/Pion_Pt60GeV_all_digis.root
 
