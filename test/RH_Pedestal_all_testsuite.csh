@@ -37,7 +37,7 @@ echo "===================> Step2: executing ERHAnalyser (Validation/EcalRecHits)
 
 /bin/rm ${WORKDIR}/Pedestal_all_testsuite2.cfg >& /dev/null
 
-sed 's/rechits.root/Pedestal_all_recHits.root/' ${SWSOURCE}/src/Validation/EcalRecHits/test/EcalRecHitsAnalysis_test.cfg | sed 's/ecalSelectiveReadout/ecaldigi/' | sed 's/esZeroSuppression/ecaldigi/' | sed 's/ebDigis//' | sed 's/eeDigis//' >&! ${WORKDIR}/Pedestal_all_testsuite2.cfg
+sed 's/rechits.root/Pedestal_all_recHits.root/' ${SWSOURCE}/src/Validation/EcalRecHits/test/EcalRecHitsAnalysis_test.cfg | sed 's/ecalDigis/ecalUnsuppressedDigis/' | sed 's/ecalPreshowerDigis/ecalUnsuppressedDigis/' | sed 's/ebDigis//' | sed 's/eeDigis//' >&! ${WORKDIR}/Pedestal_all_testsuite2.cfg
 
 cmsRun --parameter-set ${WORKDIR}/Pedestal_all_testsuite2.cfg
 
@@ -48,9 +48,7 @@ echo "===================> Step3: executing ROOT macro for Pedestal_all"
 
 /bin/rm ${WORKDIR}/Pedestal_all_testsuite3.C >& /dev/null
 
-sed 's/EcalRecHitsValidation_old.root/Pedestal_all_EcalRecHitsValidation_old.root/' ${SWSOURCE}/EcalRecHitsPlotCompare.C >&! ${WORKDIR}/Pedestal_all_testsuite3.C
-sed 's/EcalRecHitsValidation_new.root/Pedestal_all_EcalRecHitsValidation_new.root/' ${WORKDIR}/Pedestal_all_testsuite3.C >&! ${WORKDIR}/Pedestal_all_testsuite4.C
-sed 's/EcalRecHitsPlotCompare/Pedestal_all_testsuite5/' ${WORKDIR}/Pedestal_all_testsuite4.C >&! ${WORKDIR}/Pedestal_all_testsuite5.C
+sed 's/EcalRecHitsValidation_old.root/Pedestal_all_EcalRecHitsValidation_old.root/' ${SWSOURCE}/src/Validation/EcalRecHits/test//EcalRecHitsPlotCompare.C | sed 's/EcalRecHitsValidation_new.root/Pedestal_all_EcalRecHitsValidation_new.root/' | sed 's/EcalRecHitsPlotCompare/Pedestal_all_testsuite3/' >&! ${WORKDIR}/Pedestal_all_testsuite3.C
 
 cp ${SWSOURCE}/src/Validation/EcalRecHits/test/HistoCompare.C ${WORKDIR}
 
@@ -58,5 +56,5 @@ cp ${SWSOURCE}/src/Validation/EcalRecHits/data/Photon_30GeV_all_EcalRecHitsValid
 
 cp Pedestal_all_EcalRecHitsValidation_new.root ${WORKDIR}
 
-cd ${WORKDIR} ; root -b -q ${WORKDIR}/Pedestal_all_testsuite5.C
+cd ${WORKDIR} ; root -b -q ${WORKDIR}/Pedestal_all_testsuite3.C
 

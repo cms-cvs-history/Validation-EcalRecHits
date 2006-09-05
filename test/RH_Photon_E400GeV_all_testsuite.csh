@@ -48,9 +48,7 @@ echo "===================> Step3: executing ROOT macro for Photon_E400GeV_all"
 
 /bin/rm ${WORKDIR}/Photon_E400GeV_all_testsuite3.C >& /dev/null
 
-sed 's/EcalRecHitsValidation_old.root/Photon_E400GeV_all_EcalRecHitsValidation_old.root/' ${SWSOURCE}/EcalRecHitsPlotCompare.C >&! ${WORKDIR}/Photon_E400GeV_all_testsuite3.C
-sed 's/EcalRecHitsValidation_new.root/Photon_E400GeV_all_EcalRecHitsValidation_new.root/' ${WORKDIR}/Photon_E400GeV_all_testsuite3.C >&! ${WORKDIR}/Photon_E400GeV_all_testsuite4.C
-sed 's/EcalRecHitsPlotCompare/Photon_E400GeV_all_testsuite5/' ${WORKDIR}/Photon_E400GeV_all_testsuite4.C >&! ${WORKDIR}/Photon_E400GeV_all_testsuite5.C
+sed 's/EcalRecHitsValidation_old.root/Photon_E400GeV_all_EcalRecHitsValidation_old.root/' ${SWSOURCE}/src/Validation/EcalRecHits/test//EcalRecHitsPlotCompare.C | sed 's/EcalRecHitsValidation_new.root/Photon_E400GeV_all_EcalRecHitsValidation_new.root/' | sed 's/EcalRecHitsPlotCompare/Photon_E400GeV_all_testsuite3/' >&! ${WORKDIR}/Photon_E400GeV_all_testsuite3.C
 
 cp ${SWSOURCE}/src/Validation/EcalRecHits/test/HistoCompare.C ${WORKDIR}
 
@@ -58,5 +56,5 @@ cp ${SWSOURCE}/src/Validation/EcalRecHits/data/Photon_30GeV_all_EcalRecHitsValid
 
 cp Photon_E400GeV_all_EcalRecHitsValidation_new.root ${WORKDIR}
 
-cd ${WORKDIR} ; root -b -q ${WORKDIR}/Photon_E400GeV_all_testsuite5.C
+cd ${WORKDIR} ; root -b -q ${WORKDIR}/Photon_E400GeV_all_testsuite3.C
 

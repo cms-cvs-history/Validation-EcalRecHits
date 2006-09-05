@@ -48,9 +48,7 @@ echo "===================> Step3: executing ROOT macro for Pion_Pt60GeV_all"
 
 /bin/rm ${WORKDIR}/Pion_Pt60GeV_all_testsuite3.C >& /dev/null
 
-sed 's/EcalRecHitsValidation_old.root/Pion_Pt60GeV_all_EcalRecHitsValidation_old.root/' ${SWSOURCE}/EcalRecHitsPlotCompare.C >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite3.C
-sed 's/EcalRecHitsValidation_new.root/Pion_Pt60GeV_all_EcalRecHitsValidation_new.root/' ${WORKDIR}/Pion_Pt60GeV_all_testsuite3.C >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite4.C
-sed 's/EcalRecHitsPlotCompare/Pion_Pt60GeV_all_testsuite5/' ${WORKDIR}/Pion_Pt60GeV_all_testsuite4.C >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite5.C
+sed 's/EcalRecHitsValidation_old.root/Pion_Pt60GeV_all_EcalRecHitsValidation_old.root/' ${SWSOURCE}/src/Validation/EcalRecHits/test//EcalRecHitsPlotCompare.C | sed 's/EcalRecHitsValidation_new.root/Pion_Pt60GeV_all_EcalRecHitsValidation_new.root/' | sed 's/EcalRecHitsPlotCompare/Pion_Pt60GeV_all_testsuite3/' >&! ${WORKDIR}/Pion_Pt60GeV_all_testsuite3.C
 
 cp ${SWSOURCE}/src/Validation/EcalRecHits/test/HistoCompare.C ${WORKDIR}
 
@@ -58,5 +56,5 @@ cp ${SWSOURCE}/src/Validation/EcalRecHits/data/Pion_Pt60GeV_all_EcalRecHitsValid
 
 cp Pion_Pt60GeV_all_EcalRecHitsValidation_new.root ${WORKDIR}
 
-cd ${WORKDIR} ; root -b -q ${WORKDIR}/Pion_Pt60GeV_all_testsuite5.C
+cd ${WORKDIR} ; root -b -q ${WORKDIR}/Pion_Pt60GeV_all_testsuite3.C
 
