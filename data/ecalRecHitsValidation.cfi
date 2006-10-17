@@ -1,0 +1,10 @@
+  module ecalRecHitsValidation =  EcalRecHitsValidation {
+	string moduleLabelMC   = 'source' 
+    InputTag EBrechitCollection        = ecalRecHit:EcalRecHitsEB
+    InputTag EErechitCollection        = ecalRecHit:EcalRecHitsEE
+    InputTag ESrechitCollection        = ecalPreshowerRecHit:EcalRecHitsES
+    InputTag EBuncalibrechitCollection = ecalWeightUncalibRecHit:EcalUncalibRecHitsEB
+    InputTag EEuncalibrechitCollection = ecalWeightUncalibRecHit:EcalUncalibRecHitsEE
+    untracked string outputFile      = 'EcalRecHitsValidation.root'
+    untracked bool verbose = true
+ }
