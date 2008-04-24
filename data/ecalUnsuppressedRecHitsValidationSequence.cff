@@ -2,10 +2,10 @@
  
   include "Validation/EcalRecHits/data/ecalRecHitsValidation.cfi"
   include "Validation/EcalRecHits/data/ecalBarrelRecHitsValidation.cfi"
-  replace ecalBarrelRecHitsValidation.EBdigiCollection = ecalUnsuppressedDigis
+  replace ecalBarrelRecHitsValidation.EBdigiCollection = simEcalUnsuppressedDigis
 
   include "Validation/EcalRecHits/data/ecalEndcapRecHitsValidation.cfi"
-  replace ecalEndcapRecHitsValidation.EEdigiCollection = ecalUnsuppressedDigis
+  replace ecalEndcapRecHitsValidation.EEdigiCollection = simEcalUnsuppressedDigis
 
   include "Validation/EcalRecHits/data/ecalPreshowerRecHitsValidation.cfi"
 

@@ -1,5 +1,5 @@
   module ecalEndcapRecHitsValidation =  EcalEndcapRecHitsValidation {
-    InputTag EEdigiCollection          = ecalDigis:eeDigis
+    InputTag EEdigiCollection          = simEcalDigis:eeDigis
 	InputTag EEuncalibrechitCollection = ecalWeightUncalibRecHit:EcalUncalibRecHitsEE
     untracked bool verbose = true
 	}

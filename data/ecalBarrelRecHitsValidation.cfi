@@ -1,5 +1,5 @@
   module ecalBarrelRecHitsValidation =  EcalBarrelRecHitsValidation {
-    InputTag EBdigiCollection          = ecalDigis:ebDigis
+    InputTag EBdigiCollection          = simEcalDigis:ebDigis
 	InputTag EBuncalibrechitCollection = ecalWeightUncalibRecHit:EcalUncalibRecHitsEB
     untracked bool verbose = true
 	}
