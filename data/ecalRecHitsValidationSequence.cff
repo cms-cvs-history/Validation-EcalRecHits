@@ -1,8 +1,0 @@
-  # Run the complete ECAL rechits validation set
- 
-  include "Validation/EcalRecHits/data/ecalRecHitsValidation.cfi"
-  include "Validation/EcalRecHits/data/ecalBarrelRecHitsValidation.cfi"
-  include "Validation/EcalRecHits/data/ecalEndcapRecHitsValidation.cfi"
-  include "Validation/EcalRecHits/data/ecalPreshowerRecHitsValidation.cfi"
- 
-  sequence ecalRecHitsValidationSequence = { ecalRecHitsValidation , ecalBarrelRecHitsValidation , ecalEndcapRecHitsValidation , ecalPreshowerRecHitsValidation }
