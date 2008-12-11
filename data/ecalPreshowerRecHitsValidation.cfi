@@ -1,6 +1,0 @@
-  module ecalPreshowerRecHitsValidation  =  EcalPreshowerRecHitsValidation {
-    InputTag EErechitCollection        = ecalRecHit:EcalRecHitsEE
-    InputTag ESrechitCollection        = ecalPreshowerRecHit:EcalRecHitsES
-    InputTag EEuncalibrechitCollection = ecalWeightUncalibRecHit:EcalUncalibRecHitsEE
-    untracked bool verbose = true
-	}
