@@ -274,6 +274,8 @@ void EcalRecHitsValidation::analyze(const Event& e, const EventSetup& c){
   e.getByLabel(HepMCLabel, MCEvt);  
   if (!MCEvt.isValid()) { skipMC = true; }
 
+  edm::Handle<CrossingFrame<PCaloHit> > crossingFrame;
+
   bool skipBarrel = false;
   const EBUncalibratedRecHitCollection *EBUncalibRecHit =0;
   Handle< EBUncalibratedRecHitCollection > EcalUncalibRecHitEB;
@@ -356,9 +358,10 @@ void EcalRecHitsValidation::analyze(const Event& e, const EventSetup& c){
   if ( ! skipBarrel) {
 
     // 1) loop over simHits  
-    edm::Handle<std::vector<PCaloHit> > barrelHits;
-    edm::InputTag barrelHitsName(hitsProducer_, "EcalHitsEB");
-    e.getByLabel(barrelHitsName, barrelHits);
+    const std::string barrelHitsName(hitsProducer_+"EcalHitsEB");
+    e.getByLabel("mix",barrelHitsName,crossingFrame);
+    std::auto_ptr<MixCollection<PCaloHit> > 
+      barrelHits (new MixCollection<PCaloHit>(crossingFrame.product ()));
     
     MapType ebSimMap;
     MapType ebRecMap;
@@ -368,16 +371,16 @@ void EcalRecHitsValidation::analyze(const Event& e, const EventSetup& c){
     for( int i=0; i<ebcSize; i++ ) { ebcontr[i] = 0.0; ebcontr25[i] = 0.0; } 
     double ebtotal = 0.;
 
-    for (auto const& hit : *barrelHits.product())  {   
-      EBDetId ebid = EBDetId(hit.id());
+    for (MixCollection<PCaloHit>::MixItr hitItr = barrelHits->begin (); hitItr != barrelHits->end (); ++hitItr)  {   
+      EBDetId ebid = EBDetId(hitItr->id());
       
       LogDebug("SimHitInfo, barrel") 
-	<< "CaloHit "   << hit.getName() << " DetID = " << hit.id()   << "\n"	
-	<< "Energy = "  << hit.energy()  << " Time = "  << hit.time() << "\n"
+	<< "CaloHit "   << hitItr->getName() << " DetID = " << hitItr->id()   << "\n"	
+	<< "Energy = "  << hitItr->energy()  << " Time = "  << hitItr->time() << "\n"
 	<< "EBDetId = " << ebid.ieta()       << " "         << ebid.iphi();
       
       uint32_t crystid = ebid.rawId();
-      ebSimMap[crystid] += hit.energy();
+      ebSimMap[crystid] += hitItr->energy();
     }
     
     
@@ -506,10 +509,11 @@ void EcalRecHitsValidation::analyze(const Event& e, const EventSetup& c){
   if ( ! skipEndcap ) {
 
     // 1) loop over simHits
-    edm::Handle<std::vector<PCaloHit> >  endcapHits;
-    edm::InputTag endcapHitsName(hitsProducer_, "EcalHitsEE");
-    e.getByLabel(endcapHitsName, endcapHits);
-    
+    const std::string endcapHitsName(hitsProducer_+"EcalHitsEE");
+    e.getByLabel("mix",endcapHitsName,crossingFrame);
+    std::auto_ptr<MixCollection<PCaloHit> > 
+      endcapHits (new MixCollection<PCaloHit>(crossingFrame.product ()));
+  
     MapType eeSimMap;
     MapType eeRecMap;
     const int eecSize = 90;
@@ -518,16 +522,16 @@ void EcalRecHitsValidation::analyze(const Event& e, const EventSetup& c){
     for( int i=0; i<eecSize; i++ ) { eecontr[i] = 0.0; eecontr25[i] = 0.0; } 
     double eetotal = 0.;
  
-    for (auto const& hit : *endcapHits.product())  {   
-      EEDetId eeid = EEDetId(hit.id()) ;
+    for (MixCollection<PCaloHit>::MixItr hitItr = endcapHits->begin(); hitItr != endcapHits->end(); ++hitItr) {   
+      EEDetId eeid = EEDetId(hitItr->id()) ;
       
       LogDebug("Endcap, HitInfo")
-	<<" CaloHit "      << hit.getName() << " DetID = "        << hit.id()   << "\n"
-	<< "Energy = "     << hit.energy()  << " Time = "         << hit.time() << "\n"
+	<<" CaloHit "      << hitItr->getName() << " DetID = "        << hitItr->id()   << "\n"
+	<< "Energy = "     << hitItr->energy()  << " Time = "         << hitItr->time() << "\n"
 	<< "EEDetId side " << eeid.zside()      << " = " << eeid.ix() << " " << eeid.iy();
       
       uint32_t crystid = eeid.rawId();
-      eeSimMap[crystid] += hit.energy();
+      eeSimMap[crystid] += hitItr->energy();
     }
 
 
@@ -645,26 +649,28 @@ void EcalRecHitsValidation::analyze(const Event& e, const EventSetup& c){
   if ( ! skipPreshower ) {
 
     // 1) loop over simHits
-    edm::Handle<std::vector<PCaloHit> >  preshowerHits;
-    edm::InputTag preshowerHitsName(hitsProducer_, "EcalHitsES");
-    e.getByLabel(preshowerHitsName, preshowerHits);
-    
+    const std::string preshowerHitsName(hitsProducer_+"EcalHitsES");
+    e.getByLabel("mix",preshowerHitsName,crossingFrame);
+    std::auto_ptr<MixCollection<PCaloHit> > 
+      preshowerHits (new MixCollection<PCaloHit>(crossingFrame.product ()));
+
     MapType esSimMap;
     const int escSize = 90;
     double escontr[escSize];
     for( int i=0; i<escSize; i++ ) { escontr[i] = 0.0; }
     double estotal = 0.;
+
   
-    for (auto const& hit : *preshowerHits.product())  {   
-      ESDetId esid = ESDetId(hit.id()) ;
+    for (MixCollection<PCaloHit>::MixItr hitItr = preshowerHits->begin(); hitItr != preshowerHits->end(); ++hitItr) {   
+      ESDetId esid = ESDetId(hitItr->id()) ;
 
       LogDebug("Preshower, HitInfo")
-	<<" CaloHit "       << hit.getName() << " DetID = "         << hit.id()   << "\n"
-	<< "Energy = "      << hit.energy()  << " Time = "          << hit.time() << "\n"
+	<<" CaloHit "       << hitItr->getName() << " DetID = "         << hitItr->id()   << "\n"
+	<< "Energy = "      << hitItr->energy()  << " Time = "          << hitItr->time() << "\n"
 	<< "ESDetId strip " << esid.strip()      << " = " << esid.six() << " " << esid.siy();
       
       uint32_t crystid = esid.rawId();
-      esSimMap[crystid] += hit.energy();
+      esSimMap[crystid] += hitItr->energy();
     }
 
 
